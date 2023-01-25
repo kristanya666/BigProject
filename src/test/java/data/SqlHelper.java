@@ -3,9 +3,20 @@ package data;
 import lombok.SneakyThrows;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+
+import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class SqlHelper {
+    static String url = System.getProperty("db.url");
+    static String login = System.getProperty("db.login");
+    static String password = System.getProperty("db.password");
+
+
+    @SneakyThrows
+    public static Connection getConn() {
+        return DriverManager.getConnection(url, login, password);
+    }
 
     @SneakyThrows
     public static String getCreditStatusById() {
@@ -14,7 +25,7 @@ public class SqlHelper {
         String statusPayment = null;
 
         try (
-                var connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
+                var connection = getConn();
                 var status = connection.prepareStatement(statusSQL)) {
             status.setString(1, bankId);
             try (var rs = status.executeQuery()) {
@@ -29,7 +40,7 @@ public class SqlHelper {
     @SneakyThrows
     public static void cleanDatabases() {
         var runner = new QueryRunner();
-        var connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
+        var connection = getConn();
         runner.execute(connection, "DELETE FROM order_entity");
         runner.execute(connection, "DELETE FROM credit_request_entity");
         runner.execute(connection, "DELETE FROM payment_entity");
@@ -41,7 +52,7 @@ public class SqlHelper {
         var runner = new QueryRunner();
 
         try (
-                var connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass")) {
+                var connection = getConn()) {
             var id = runner.query(connection, paymentId, new ScalarHandler<String>());
             return id;
         }
@@ -54,7 +65,7 @@ public class SqlHelper {
         String statusPayment = null;
 
         try (
-                var connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
+                var connection = getConn();
                 var status = connection.prepareStatement(paymentIdSQL)) {
             status.setString(1, transactionId);
             try (var rs = status.executeQuery()) {
@@ -74,7 +85,7 @@ public class SqlHelper {
         String amountPayment = null;
 
         try (
-                var connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
+                var connection = getConn();
                 var amount = connection.prepareStatement(paymentIdSQL)) {
             amount.setString(1, transactionId);
             try (var rs = amount.executeQuery()) {

@@ -29,14 +29,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #1")
     public void testWithApprovedCard() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -55,14 +53,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #2")
-    public void testWithCurrentData() {
+    public void testWithCurrentDate() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getCurrentDate("MM"));
         paymentCardForm.fillYear(Data.getCurrentDate("yy"));
@@ -74,14 +70,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #3")
     public void testWithDeclinedCard() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getDeclinedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -98,14 +92,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #4")
     public void testWithOneDigitInCardField() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getRandomDigit());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -117,14 +109,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #5")
     public void testWithNotingInCardField() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
         paymentCardForm.fillCVC(Data.getValidCVV());
@@ -135,15 +125,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #6")
     public void testWithZerosInCardField() {
         open("http://localhost:8080");
         String zeros = "0000_0000_0000_0000";
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
-
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
         paymentCardForm.fillCardNumber(zeros);
         paymentCardForm.fillMonth(Data.getValidMonth());
@@ -156,14 +143,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #7")
     public void testWithPastYear() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getPastYear());
@@ -175,36 +160,32 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #8")
     public void testWithPreviousMonth() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
-        paymentCardForm.fillMonth(Data.getPreviousMonth());
-        paymentCardForm.fillYear(Data.getCurrentDate("yy"));
+        paymentCardForm.fillMonth(Data.getPreviousDate("MM"));
+        paymentCardForm.fillYear(Data.getPreviousDate("yy"));
         paymentCardForm.fillCVC(Data.getValidCVV());
         paymentCardForm.fillCardholder(Data.getValidCardholder());
         paymentCardForm.clickButton();
 
-        paymentCardForm.shouldHaveTooltipWrongTermOfCardInMonthField();
-        // поле месяц должно иметь подсказку "Неверно указан срок действия карты"
+        paymentCardForm.shouldHaveTooltipOfCardExpiration();
+        // поле год должно иметь подсказку "Истёк срок действия карты"
     }
 
     @Test
-    @DisplayName("TestCase #9")
     public void testWithThirteenthMonth() {
         String wrongMonth = "13";
 
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(wrongMonth);
         paymentCardForm.fillYear(Data.getValidYear());
@@ -217,16 +198,14 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #10")
     public void testWithZeroMonth() {
         String zeroMonth = "00";
 
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(zeroMonth);
         paymentCardForm.fillYear(Data.getValidYear());
@@ -239,16 +218,14 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #11")
     public void testWithZeroYear() {
         String zeroYear = "00";
 
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(zeroYear);
@@ -260,14 +237,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #12")
     public void testWithoutDate() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillCVC(Data.getValidCVV());
         paymentCardForm.fillCardholder(Data.getValidCardholder());
@@ -279,14 +254,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #13")
     public void testWithoutMonth() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillYear(Data.getValidYear());
         paymentCardForm.fillCVC(Data.getValidCVV());
@@ -297,15 +270,13 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #14")
     public void testWithoutYear() {
 
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillCVC(Data.getValidCVV());
@@ -316,14 +287,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #15")
     public void testWithYearPlusSixYears() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getYearPlusSixYears());
@@ -336,16 +305,14 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #16")
     public void testWithSymbolsInDateField() {
         String symbols = "!.,/|**&?";
 
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(symbols);
         paymentCardForm.fillYear(symbols);
@@ -361,14 +328,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #17")
     public void testWithOneDigitInDateField() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getRandomDigit());
         paymentCardForm.fillYear(Data.getRandomDigit());
@@ -381,14 +346,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #18")
     public void testWithRussianTextInCardholderField() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -400,14 +363,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #19")
     public void testWithDigitInCardholderField() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -420,16 +381,14 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #20")
     public void testWithOneCharInCardholderField() {
         String characterOne = "a";
 
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -441,16 +400,14 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #21")
     public void testWithSymbolsInCardholderField() {
         String symbols = "!.,/|**&?";
 
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -462,14 +419,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #22")
     public void testWithoutCardholderField() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -481,16 +436,14 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #23")
     public void testWithZerosInCVCField() {
         String zeros = "000";
 
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -503,14 +456,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #24")
     public void testWithOneDigitInCVCField() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -522,14 +473,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #25")
     public void testWithoutCVCField() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -540,16 +489,14 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #26")
     public void testWithCharactersInCVCField() {
         String text = "Text";
 
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -563,16 +510,14 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #27")
     public void testWithSymbolsInCVCField() {
         String symbols = "!.,/|**&?";
 
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -585,14 +530,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #28")
     public void testWithEmptyFields() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.clickButton();
 
         paymentCardForm.shouldHaveTooltipWrongFormatInCardField();
@@ -603,14 +546,12 @@ public class TestUIWithCardPayment {
     }
 
     @Test
-    @DisplayName("TestCase #29")
     public void testWithRandomCreditNumber() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getRandomCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());
@@ -618,21 +559,17 @@ public class TestUIWithCardPayment {
         paymentCardForm.fillCardholder(Data.getValidCardholder());
         paymentCardForm.clickButton();
 
-
         paymentCardForm.shouldReceiveErrorNotification();
     }
 
 
     @Test
-    @DisplayName("TestCase #30")
     public void testNotifications() {
         open("http://localhost:8080");
 
         MainPage mainPage = new MainPage();
-        mainPage.selectPaymentByCard();
+        PaymentCardForm paymentCardForm = mainPage.selectPaymentByCard();
 
-
-        PaymentCardForm paymentCardForm = new PaymentCardForm();
         paymentCardForm.fillCardNumber(Data.getApprovedCardNumber());
         paymentCardForm.fillMonth(Data.getValidMonth());
         paymentCardForm.fillYear(Data.getValidYear());

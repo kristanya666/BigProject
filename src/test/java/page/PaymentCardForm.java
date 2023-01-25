@@ -6,6 +6,7 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PaymentCardForm {
@@ -61,42 +62,42 @@ public class PaymentCardForm {
 
 
     public void shouldHaveTooltipWrongTermOfCardInMonthField() {
-            tooltipOfMonth.shouldBe(visible);
-            tooltipOfMonth.shouldHave(exactText("Неверно указан срок действия карты"));
+        tooltipOfMonth.shouldHave(exactText("Неверно указан срок действия карты"));
+        tooltipOfMonth.shouldBe(visible);
     }
     public void shouldHaveTooltipWrongTermOfCardInYearField() {
-            tooltipOfYear.shouldBe(visible);
-            tooltipOfYear.shouldHave(exactText("Неверно указан срок действия карты"));
+        tooltipOfYear.shouldHave(exactText("Неверно указан срок действия карты"));
+        tooltipOfYear.shouldBe(visible);
     }
 
     public void shouldHaveTooltipOfCardExpiration() {
-        tooltipOfYear.shouldBe(visible);
         tooltipOfYear.shouldHave(exactText("Истёк срок действия карты"));
+        tooltipOfYear.shouldBe(visible);
     }
 
     public void shouldHaveTooltipWrongFormatInMonthField() {
-        tooltipOfMonth.shouldBe(visible);
         tooltipOfMonth.shouldHave(exactText(wrongFormat));
+        tooltipOfMonth.shouldBe(visible);
     }
 
     public void shouldHaveTooltipWrongFormatInYearField() {
-        tooltipOfYear.shouldBe(visible);
         tooltipOfYear.shouldHave(exactText(wrongFormat));
+        tooltipOfYear.shouldBe(visible);
     }
 
     public void shouldHaveTooltipWrongFormatInCardField() {
-        tooltipOfCard.shouldBe(visible);
         tooltipOfCard.shouldHave(exactText(wrongFormat));
+        tooltipOfCard.shouldBe(visible);
     }
 
     public void shouldHaveTooltipWrongFormatInCardholderField() {
-        tooltipOfCardholder.shouldBe(visible);
         tooltipOfCardholder.shouldHave(exactText(wrongFormat));
+        tooltipOfCardholder.shouldBe(visible);
     }
 
     public void shouldHaveTooltipWrongFormatInCVVField() {
-        tooltipOfCVC.shouldBe(visible);
         tooltipOfCVC.shouldHave(exactText(wrongFormat));
+        tooltipOfCVC.shouldBe(visible);
     }
 
 
@@ -114,26 +115,24 @@ public class PaymentCardForm {
 
 
     public void cardholderShouldBeFilledIn() {
-        tooltipOfCardholder.shouldBe(visible);
         tooltipOfCardholder.shouldHave(exactText("Поле обязательно для заполнения"));
+        tooltipOfCardholder.shouldBe(visible);
     }
 
     public void shouldReceiveErrorNotification() {
-        notificationError.shouldBe(Condition.visible, Duration.ofSeconds(10));
-        notificationTitleError.shouldHave(exactText("Ошибка"));
+        notificationTitleError.shouldHave(exactText("Ошибка"), Duration.ofSeconds(15));
+        notificationError.shouldBe(Condition.visible);
 
     }
 
     public void shouldReceiveSuccessNotification() {
-        notificationSuccess.shouldBe(Condition.visible, Duration.ofSeconds(10));
-        notificationSuccess.shouldHave(exactText("Успешно"));
-
-
+        notificationSuccess.shouldHave(exactText("Успешно"), Duration.ofSeconds(15));
+        notificationSuccess.shouldBe(Condition.visible);
     }
 
     public void shouldReceiveOnlySuccessNotification() {
-        notificationSuccess.shouldBe(Condition.visible, Duration.ofSeconds(10));
-        notificationSuccess.shouldHave(exactText("Успешно"));
+        notificationSuccess.shouldHave(exactText("Успешно"), Duration.ofSeconds(15));
+        notificationSuccess.shouldBe(Condition.visible);
 
         notificationTitleError.shouldBe(hidden);
     }

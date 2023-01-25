@@ -8,6 +8,7 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 
 
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -26,11 +27,9 @@ public class PaymentCreditForm {
     private final SelenideElement tooltipOfYear = $x("//span[text()='Год']/following::span[2]");
     private final SelenideElement tooltipOfCardholder = $x("//span[text()='Владелец']/following::span[2]");
     private final SelenideElement tooltipOfCVC = $x("//span[text()='CVC/CVV']/following::span[2]");
-    private final SelenideElement notificationSuccess = $("div.notification_status_ok");
+    private final SelenideElement notificationSuccess = $(byText("Успешно"));
     private final SelenideElement notificationError = $("div.notification_status_error");
     private final SelenideElement notificationTitleError = notificationError.$("div.notification__title");
-    private final SelenideElement notificationTitleSuccess = notificationSuccess.$("div.notification__title");
-    //private final SelenideElement notificationContent = $("div.notification_content");
     private final String wrongFormat = "Неверный формат";
 
     public PaymentCreditForm() {
@@ -62,42 +61,42 @@ public class PaymentCreditForm {
     }
 
     public void shouldHaveTooltipWrongTermOfCardInMonthField() {
-        tooltipOfMonth.shouldBe(visible);
         tooltipOfMonth.shouldHave(exactText("Неверно указан срок действия карты"));
+        tooltipOfMonth.shouldBe(visible);
     }
     public void shouldHaveTooltipWrongTermOfCardInYearField() {
-        tooltipOfYear.shouldBe(visible);
         tooltipOfYear.shouldHave(exactText("Неверно указан срок действия карты"));
+        tooltipOfYear.shouldBe(visible);
     }
 
     public void shouldHaveTooltipOfCardExpiration() {
-        tooltipOfYear.shouldBe(visible);
         tooltipOfYear.shouldHave(exactText("Истёк срок действия карты"));
+        tooltipOfYear.shouldBe(visible);
     }
 
     public void shouldHaveTooltipWrongFormatInMonthField() {
-        tooltipOfMonth.shouldBe(visible);
         tooltipOfMonth.shouldHave(exactText(wrongFormat));
+        tooltipOfMonth.shouldBe(visible);
     }
 
     public void shouldHaveTooltipWrongFormatInYearField() {
-        tooltipOfYear.shouldBe(visible);
         tooltipOfYear.shouldHave(exactText(wrongFormat));
+        tooltipOfYear.shouldBe(visible);
     }
 
     public void shouldHaveTooltipWrongFormatInCardField() {
-        tooltipOfCard.shouldBe(visible);
         tooltipOfCard.shouldHave(exactText(wrongFormat));
+        tooltipOfCard.shouldBe(visible);
     }
 
     public void shouldHaveTooltipWrongFormatInCardholderField() {
-        tooltipOfCardholder.shouldBe(visible);
         tooltipOfCardholder.shouldHave(exactText(wrongFormat));
+        tooltipOfCardholder.shouldBe(visible);
     }
 
     public void shouldHaveTooltipWrongFormatInCVVField() {
-        tooltipOfCVC.shouldBe(visible);
         tooltipOfCVC.shouldHave(exactText(wrongFormat));
+        tooltipOfCVC.shouldBe(visible);
     }
 
 
@@ -115,26 +114,27 @@ public class PaymentCreditForm {
 
 
     public void cardholderShouldBeFilledIn() {
-        tooltipOfCardholder.shouldBe(visible);
         tooltipOfCardholder.shouldHave(exactText("Поле обязательно для заполнения"));
+        tooltipOfCardholder.shouldBe(visible);
     }
 
     public void shouldReceiveErrorNotification() {
-        notificationError.shouldBe(Condition.visible, Duration.ofSeconds(10));
-        notificationTitleError.shouldHave(exactText("Ошибка"));
+        notificationTitleError.shouldHave(exactText("Ошибка"), Duration.ofSeconds(15));
+        notificationError.shouldBe(Condition.visible);
 
     }
 
     public void shouldReceiveSuccessNotification() {
-        notificationSuccess.shouldBe(Condition.visible, Duration.ofSeconds(10));
-        notificationTitleSuccess.shouldHave(exactText("Успешно"));
+        notificationSuccess.shouldHave(exactText("Успешно"), Duration.ofSeconds(15));
+        notificationSuccess.shouldBe(Condition.visible);
 
 
     }
 
     public void shouldReceiveOnlySuccessNotification() {
-        notificationSuccess.shouldBe(Condition.visible, Duration.ofSeconds(10));
-        notificationTitleSuccess.shouldHave(exactText("Успешно"));
+        notificationSuccess.shouldHave(exactText("Успешно"), Duration.ofSeconds(15));
+        notificationSuccess.shouldBe(Condition.visible);
+
         notificationTitleError.shouldBe(hidden);
     }
 }

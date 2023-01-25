@@ -14,25 +14,16 @@ public class Data {
 
 
     public static String getApprovedCardNumber() {
-        return "4444_4444_4444_4441";
+        return "4444 4444 4444 4441";
     }
 
 
     public static String getDeclinedCardNumber() {
-        return "4444_4444_4444_4442";
+        return "4444 4444 4444 4442";
     }
 
     public static String getValidMonth() {
-        int randomNumber = faker.number().numberBetween(1, 12);
-        if (randomNumber > 9) {
-            return String.valueOf(randomNumber);
-        } else {
-            return "0" + randomNumber;
-        }
-    }
-
-    public static String getPreviousMonth() {
-        return LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern("MM"));
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
     }
 
     public static String getCurrentDate(String pattern) {
@@ -56,6 +47,10 @@ public class Data {
     public static String getYearPlusSixYears() {
         return LocalDate.now().plusYears(6).format(DateTimeFormatter.ofPattern("yy"));
     }
+    public static String getPreviousDate(String pattern) {
+        String previousDate = LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern(pattern));
+        return previousDate;
+    }
 
 
     public static String getValidCVV() {
@@ -68,7 +63,7 @@ public class Data {
 
 
     public static String getRandomCardNumber() {
-        return faker.finance().creditCard();
+        return "3570 3530 8951 8655";
     }
 
     public static String getRandomDigit() {
